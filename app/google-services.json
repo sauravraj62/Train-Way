@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "31500214567",
+    "firebase_url": "https://train-way.firebaseio.com",
+    "project_id": "train-way",
+    "storage_bucket": "train-way.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:31500214567:android:9a97f748edb9ffbf",
+        "android_client_info": {
+          "package_name": "com.example.trainway.trainway"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "31500214567-55g400f48cjndaq5nvr11actrp2o58fh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDn_NXB6RsQaMw4mHfRpFaGl66UvwEwSHo"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
