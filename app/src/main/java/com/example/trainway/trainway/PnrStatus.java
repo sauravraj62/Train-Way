@@ -44,22 +44,22 @@ public class PnrStatus extends AppCompatActivity {
         list= findViewById(R.id.StatusList);
         Data = new ArrayList<String>();
 
-        UserPnr = findViewById(R.id.pnrnumber);
+//        UserPnr = findViewById(R.id.pnrnumber);
 
 
 //        "https://api.railwayapi.com/v2/pnr-status/pnr/1234567890/apikey/myapikey/"
 
-        CheckBtn = findViewById(R.id.getstatus);
+//        CheckBtn = findViewById(R.id.getstatus);
 
         progressDialog = new ProgressDialog(this);
 
-
-        CheckBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        PNR = getIntent().getStringExtra("pnr");
+//        CheckBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
 
                 Data.clear();
-                PNR = UserPnr.getText().toString().trim();
+
                 URL= "https://indianrailapi.com/api/v2/PNRCheck/apikey/d9a868f6411e131a285d0df9b32f23ce/PNRNumber/"+PNR+"/Route/1/";
 
                 if(validatePNR(PNR))
@@ -77,8 +77,8 @@ public class PnrStatus extends AppCompatActivity {
                     Toast.makeText(PnrStatus.this,"Enter A Valid PNR Number",Toast.LENGTH_LONG).show();
 //                    Toast.makeText(PnrStatus.this,PNR,Toast.LENGTH_LONG).show();
                 }
-            }
-        });
+//            }
+//        });
 
     }
     public boolean isNetworkAvailable(){

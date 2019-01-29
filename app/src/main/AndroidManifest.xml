@@ -11,7 +11,18 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".TrainsAtStation"></activity>
+        <activity android:name=".ShowTrainsAt"></activity>
+        <activity android:name=".FareQueryDetails" />
+        <activity
+            android:name=".TrainRouteDetails"
+            android:label="@string/title_activity_train_route_details"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".Pnr_Details_Entry" />
+        <activity android:name=".DashBoard_New" />
+        <activity android:name=".DashBoard2" />
+        <activity android:name=".ShowLiveStatus" />
+        <activity android:name=".LiveStatus" />
+        <activity android:name=".TrainsAtStation" />
         <activity android:name=".FareQuery" />
         <activity android:name=".ShowTrains" />
         <activity android:name=".TrainBtwStations" />

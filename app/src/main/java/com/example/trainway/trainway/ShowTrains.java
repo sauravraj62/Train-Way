@@ -6,6 +6,8 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -22,12 +24,15 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ShowTrains extends AppCompatActivity {
     String source,destination,URL,CurrData;
     private ProgressDialog progressDialog;
-    private ArrayList<String> Data;
-    private ListView list;
+
+    RecyclerView recyclerView;
+    Context context;
+    private List<Station1> items1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,11 +45,8 @@ public class ShowTrains extends AppCompatActivity {
         URL ="https://indianrailapi.com/api/v2/TrainBetweenStation/apikey/d9a868f6411e131a285d0df9b32f23ce/From/"+source+"/To/"+destination;
 //        "https://api.railwayapi.com/v2/between/source/gkp/dest/jat/date/24-06-2017/apikey/myapikey/"
 
+        initialize();
         progressDialog = new ProgressDialog(this);
-        list = findViewById(R.id.trainslist);
-
-        Data = new ArrayList<String>();
-        Data.clear();
         if(isNetworkAvailable())
         {
             loadtrains();
@@ -53,6 +55,24 @@ public class ShowTrains extends AppCompatActivity {
             noNetwrokErrorMessage();
 
     }
+
+    private void initializeadpter()
+    {
+        RecyclerViewAdapterBtw adapter2 = new RecyclerViewAdapterBtw(items1);
+        recyclerView.setAdapter(adapter2);
+    }
+    private void initialize()
+    {
+        recyclerView = findViewById(R.id.btwrv);
+        recyclerView.setHasFixedSize(true);
+
+        LinearLayoutManager layoutManager2 = new LinearLayoutManager(context);
+        recyclerView.setLayoutManager(layoutManager2);
+
+        RecyclerViewAdapterBtw adapter = new RecyclerViewAdapterBtw(items1);
+
+    }
+
     public boolean isNetworkAvailable(){
 //        return  false;
         ConnectivityManager connectivityManager= (ConnectivityManager) ShowTrains.this.getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -109,22 +129,37 @@ public class ShowTrains extends AppCompatActivity {
 
                                 JSONArray trains = object.getJSONArray("Trains");
 
+                                int size = trains.length();
+
+                                String tnam[] = new String[size];
+                                String tno[] = new String[size];
+                                String tarr[] = new String[size];
+                                String tdep[] = new String[size];
+                                String ttime[] = new String[size];
+                                String ttype[] = new String[size];
+
                                 for(int i=0;i<trains.length();i++)
                                 {
                                     CurrData = "Train Number = "+trains.getJSONObject(i).getString("TrainNo")+" ,";
-                                    CurrData += "Train Name = "+trains.getJSONObject(i).getString("TrainName")+" ";
-                                    CurrData += "Departure Time = "+trains.getJSONObject(i).getString("DepartureTime")+" ";
-                                    CurrData += "Arrival Time = "+trains.getJSONObject(i).getString("ArrivalTime")+" ";
-                                    CurrData += "Travel Time = "+trains.getJSONObject(i).getString("TravelTime")+" ";
-                                    CurrData += "Train Type= "+trains.getJSONObject(i).getString("TrainType")+" ";
-                                    Data.add(CurrData);
+                                    tnam[i] = CurrData;
+                                    CurrData = "Train Name = "+trains.getJSONObject(i).getString("TrainName")+" ";
+                                    tno[i] = CurrData;
+                                    CurrData = "Departure Time = "+trains.getJSONObject(i).getString("DepartureTime")+" ";
+                                    tdep[i] = CurrData;
+                                    CurrData = "Arrival Time = "+trains.getJSONObject(i).getString("ArrivalTime")+" ";
+                                    tarr[i] = CurrData;
+                                    CurrData = "Travel Time = "+trains.getJSONObject(i).getString("TravelTime")+" ";
+                                    ttime[i] = CurrData;
+                                    CurrData = "Train Type= "+trains.getJSONObject(i).getString("TrainType")+" ";
+                                    ttype[i] = CurrData;
                                 }
+                                items1 = new ArrayList<>();
 
-
-                                ArrayAdapter<String> adapter = new ArrayAdapter<String>(ShowTrains.this,android.R.layout.simple_list_item_1,android.R.id.text1,Data);
-
-                                list.setAdapter(adapter);
-
+                                for(int i=0;i<size;i++)
+                                {
+                                    items1.add(new Station1(tnam[i],tno[i],tarr[i],tdep[i],ttime[i],ttype[i]));
+                                }
+                                initializeadpter();
 
                             }
                             else
@@ -152,5 +187,18 @@ public class ShowTrains extends AppCompatActivity {
 
         RequestQueue requestQueue= Volley.newRequestQueue(ShowTrains.this);
         requestQueue.add(request);
+    }
+}
+class Station1
+{
+    String name,no,arr,dep,time,type;
+    Station1(String s1,String s2,String s3,String s4,String s5,String s6)
+    {
+        this.name = s1;
+        this.no = s2;
+        this.arr = s3;
+        this.dep = s4;
+        this.time = s5;
+        this.type = s6;
     }
 }

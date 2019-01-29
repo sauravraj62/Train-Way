@@ -4,7 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".TrainsAtStation">
+    tools:context=".TrainsAtStation"
+    android:background="@drawable/gradient"
+    >
 
     <TextView
         android:id="@+id/trainststationtxt"
@@ -14,7 +16,7 @@
         android:layout_marginTop="36dp"
         android:layout_marginEnd="8dp"
         android:gravity="center"
-        android:text="Enter Station Code"
+        android:text="𝙴𝚗𝚝𝚎𝚛 𝚂𝚝𝚊𝚝𝚒𝚘𝚗 𝙲𝚘𝚍𝚎"
         android:textSize="25sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.496"
@@ -24,11 +26,13 @@
     <EditText
         android:id="@+id/trainsatstationcode"
         android:layout_width="wrap_content"
-        android:layout_height="44dp"
+        android:layout_height="46dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
+        android:background="@drawable/round"
         android:ems="10"
+        android:paddingLeft="15dp"
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -42,23 +46,11 @@
         android:layout_marginTop="32dp"
         android:layout_marginEnd="8dp"
         android:text="Check"
+        android:background="@drawable/button_style"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/trainsatstationcode" />
 
-    <ListView
-        android:id="@+id/TrainsAtStationList"
-        android:layout_width="395dp"
-        android:layout_height="410dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/trainsatstationbtn"
-        app:layout_constraintVertical_bias="0.434" />
+
 </android.support.constraint.ConstraintLayout>

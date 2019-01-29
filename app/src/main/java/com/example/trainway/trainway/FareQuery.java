@@ -6,6 +6,8 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -25,45 +27,42 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class FareQuery extends AppCompatActivity {
-
-    private EditText srcet,destet,trainnoet;
     private String source,destination,trainnumber,CurrData,URL;
-    private Button Check;
     private ProgressDialog progressDialog;
-    private ArrayList<String> Data;
-    private ListView list;
+
+    RecyclerView recyclerView;
+    Context context;
+    private List<Items1> items1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fare_query);
 
-        Data = new ArrayList<String>();
+        initialize();
+
         progressDialog = new ProgressDialog(this);
-        srcet = findViewById(R.id.SourceStationCode);
-        destet = findViewById(R.id.DestinationStationCode);
-        trainnoet = findViewById(R.id.TrainNumberForFare);
-        list = findViewById(R.id.ShowFare);
 
-        Check = findViewById(R.id.getfarebtn);
 
-        Check.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                source = srcet.getText().toString();
-                destination = destet.getText().toString();
-                trainnumber = trainnoet.getText().toString();
+//        Check.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+                source = getIntent().getStringExtra("scode");
+                destination = getIntent().getStringExtra("dcode");
+                trainnumber = getIntent().getStringExtra("tno");
 
-                source.toLowerCase();
-                destination.toLowerCase();
-                Data.clear();
+                source.toUpperCase();
+                destination.toUpperCase();
                 URL = "https://indianrailapi.com/api/v2/TrainFare/apikey/d9a868f6411e131a285d0df9b32f23ce/TrainNumber/"+trainnumber+"/From/"+source+"/To/"+destination+"/Quota/GN";
                 if(validate(source,destination,trainnumber))
                 {
                     if(isNetworkAvailable())
                     {
                         loadfare();
+//                        Toast.makeText(FareQuery.this,"Hulululululu",Toast.LENGTH_LONG).show();
+
                     }
                     else
                         noNetwrokErrorMessage();
@@ -72,8 +71,24 @@ public class FareQuery extends AppCompatActivity {
                 {
                     Toast.makeText(FareQuery.this,"Please Enter Valid Details...",Toast.LENGTH_LONG).show();
                 }
-            }
-        });
+//            }
+//        });
+
+    }
+    private void initializeadpter()
+    {
+        RecyclerViewAdapterFare adapter1 = new RecyclerViewAdapterFare(items1);
+        recyclerView.setAdapter(adapter1);
+    }
+    private void initialize()
+    {
+        recyclerView = findViewById(R.id.farerv);
+        recyclerView.setHasFixedSize(true);
+
+        LinearLayoutManager layoutManager1 = new LinearLayoutManager(context);
+        recyclerView.setLayoutManager(layoutManager1);
+
+        RecyclerViewAdapterFare adapter = new RecyclerViewAdapterFare(items1);
 
     }
     private Boolean validate(String sr,String des,String tr)
@@ -136,37 +151,38 @@ public class FareQuery extends AppCompatActivity {
 
                             if(checkResponseCode(responseCode)){
 
+                                items1 = new ArrayList<>();
+
+
                                 CurrData ="Train Name = "+ object.getString("TrainName");
-                                Data.add(CurrData);
+                                items1.add(new Items1(CurrData));
 
                                 CurrData ="From Station = "+ object.getString("From");
-                                Data.add(CurrData);
+                                items1.add(new Items1(CurrData));
 
                                 CurrData ="To Station = "+ object.getString("To");
-                                Data.add(CurrData);
+                                items1.add(new Items1(CurrData));
 
                                 CurrData ="Distance = "+ object.getString("Distance");
-                                Data.add(CurrData);
+                                items1.add(new Items1(CurrData));
 
                                 CurrData ="Train Type = "+ object.getString("TrainType");
-                                Data.add(CurrData);
+                                items1.add(new Items1(CurrData));
 
 
                                 CurrData = "  ";
                                 CurrData = "Fares Are As Follows:";
-                                Data.add(CurrData);
+                                items1.add(new Items1(CurrData));
 
                                 JSONArray fares = object.getJSONArray("Fares");
                                 for(int i=0;i<fares.length();i++)
                                 {
                                     CurrData = fares.getJSONObject(i).getString("Name")+ "= "+fares.getJSONObject(i).getString("Fare");
-                                    Data.add(CurrData);
+                                    items1.add(new Items1(CurrData));
                                 }
 
 
-                                ArrayAdapter<String> adapter = new ArrayAdapter<String>(FareQuery.this,android.R.layout.simple_list_item_1,android.R.id.text1,Data);
-
-                                list.setAdapter(adapter);
+                                initializeadpter();
 
                             }
                             else
@@ -194,5 +210,14 @@ public class FareQuery extends AppCompatActivity {
 
         RequestQueue requestQueue= Volley.newRequestQueue(FareQuery.this);
         requestQueue.add(request);
+    }
+}
+
+class Items1
+{
+    String description;
+    Items1(String s1)
+    {
+        this.description = s1;
     }
 }

@@ -14,7 +14,7 @@ import com.google.firebase.auth.FirebaseUser;
 public class DashBoard extends AppCompatActivity {
 
 
-    private Button Logout,pnrbtn,routebtn,trnbtw,farebtn,trainsatstationbtn;
+    private Button Logout,pnrbtn,routebtn,trnbtw,farebtn,trainsatstationbtn,livestatusbtn,check;
     private FirebaseAuth firebaseAuth;
     ProgressDialog progressDialog;
     @Override
@@ -38,6 +38,23 @@ public class DashBoard extends AppCompatActivity {
         trnbtw = findViewById(R.id.trainbtwstationsbtn);
         farebtn = findViewById(R.id.farebtn);
         trainsatstationbtn = findViewById(R.id.trainsatstation);
+        livestatusbtn = findViewById(R.id.livestatusbtn);
+        check = findViewById(R.id.check);
+        check.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(DashBoard.this,DashBoard_New.class));
+            }
+        });
+
+        livestatusbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(DashBoard.this,LiveStatus.class));
+            }
+        });
+
+
         if((usr==null))
         {
             Logout.setText("Login Here");
@@ -53,7 +70,7 @@ public class DashBoard extends AppCompatActivity {
         farebtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(DashBoard.this,FareQuery.class));
+                startActivity(new Intent(DashBoard.this,FareQueryDetails.class));
             }
         });
 
@@ -74,7 +91,7 @@ public class DashBoard extends AppCompatActivity {
         pnrbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(DashBoard.this,PnrStatus.class));
+                startActivity(new Intent(DashBoard.this,Pnr_Details_Entry.class));
             }
         });
 

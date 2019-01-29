@@ -4,33 +4,37 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".TrainBtwStations">
+    tools:context=".TrainBtwStations"
+    android:background="@drawable/gradient"
+    >
 
 
     <TextView
         android:id="@+id/sourcetxt"
-        android:layout_width="321dp"
+        android:layout_width="366dp"
         android:layout_height="36dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="36dp"
         android:layout_marginEnd="8dp"
-        android:text="Enter Source Station Code"
-        android:textSize="25sp"
         android:gravity="center"
+        android:paddingLeft="5dp"
+        android:text="𝙴𝚗𝚝𝚎𝚛 𝚂𝚘𝚞𝚛𝚌𝚎 𝚂𝚝𝚊𝚝𝚒𝚘𝚗 𝙲𝚘𝚍𝚎"
+        android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/destinationtxt"
-        android:layout_width="362dp"
-        android:layout_height="41dp"
+        android:layout_width="382dp"
+        android:layout_height="53dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="40dp"
         android:layout_marginEnd="8dp"
-        android:text="Enter Destination Station Code"
-        android:textSize="25sp"
         android:gravity="center"
+        android:paddingLeft="5dp"
+        android:text="𝙴𝚗𝚝𝚎𝚛 𝙳𝚎𝚜𝚝𝚒𝚗𝚊𝚝𝚒𝚘𝚗 𝚂𝚝𝚊𝚝𝚒𝚘𝚗 𝙲𝚘𝚍𝚎"
+        android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/sourcecode" />
@@ -38,11 +42,13 @@
     <EditText
         android:id="@+id/sourcecode"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="38dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="40dp"
         android:layout_marginEnd="8dp"
+        android:background="@drawable/round"
         android:ems="10"
+        android:paddingLeft="15dp"
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -51,11 +57,13 @@
     <EditText
         android:id="@+id/destinationcode"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="36dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="40dp"
         android:layout_marginEnd="8dp"
+        android:background="@drawable/round"
         android:ems="10"
+        android:paddingLeft="15dp"
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -63,18 +71,16 @@
 
     <Button
         android:id="@+id/checkbtn"
-        android:layout_width="wrap_content"
+        android:layout_width="157dp"
         android:layout_height="46dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginBottom="304dp"
+        android:layout_marginBottom="272dp"
+        android:background="@drawable/button_style"
         android:text="Check"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/destinationcode"
-        app:layout_constraintVertical_bias="0.92" />
+        app:layout_constraintStart_toStartOf="parent" />
 
 </android.support.constraint.ConstraintLayout>

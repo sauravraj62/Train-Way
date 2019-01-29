@@ -48,6 +48,18 @@ public class TrainBtwStations extends AppCompatActivity {
         if(src.length()==0 || dest.length()==0)
             flag=false;
 
+        for(int i=0;i<src.length();i++)
+        {
+            char z = src.charAt(i);
+            if(!(z>='a' && z<='z') && !(z>='A' && z<='Z'))
+                return false;
+        }
+        for(int i=0;i<dest.length();i++)
+        {
+            char z = dest.charAt(i);
+            if(!(z>='a' && z<='z') && !(z>='A' && z<='Z'))
+                return false;
+        }
         return flag;
     }
 }

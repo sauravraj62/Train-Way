@@ -5,11 +5,14 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -24,46 +27,42 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class TrainRoute extends AppCompatActivity {
+    private TextView name,no,days,clas;
 
-    private ArrayList<String> Data;
     private String CurrData;
-    private ListView list;
     private String TrainNumber,URL,APIKEY;
     private EditText UserPnr;
     private Button CheckBtn;
     private ProgressDialog progressDialog;
+
+    RecyclerView recyclerView;
+    Context context;
+    private List<Station> station;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_train_route);
         APIKEY = "jd8d5dw8vz";
-        list= findViewById(R.id.RouteList);
-        Data = new ArrayList<String>();
 
-        UserPnr = findViewById(R.id.pnrnumber);
+        initialize();
 
-
-
-//        "https://api.railwayapi.com/v2/pnr-status/pnr/1234567890/apikey/myapikey/"
-
-        CheckBtn = findViewById(R.id.getRoute);
 
         progressDialog = new ProgressDialog(this);
 
 
 
-        CheckBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                TrainNumber = UserPnr.getText().toString();
+//        CheckBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+                TrainNumber = getIntent().getStringExtra("tno");
                 URL= "https://api.railwayapi.com/v2/route/train/"+TrainNumber+"/apikey/jd8d5dw8vz/";
 //                https://api.railwayapi.com/v2/route/train/"+PNR+"/apikey/"+APIKEY+"/
                 if(validatePNR(TrainNumber))
                 {
-                    Data.clear();
                     if(isNetworkAvailable())
                     {
                         loadtrainroutes();
@@ -76,10 +75,36 @@ public class TrainRoute extends AppCompatActivity {
                     Toast.makeText(TrainRoute.this,"Enter A Valid Train Number",Toast.LENGTH_LONG).show();
 //                    Toast.makeText(PnrStatus.this,PNR,Toast.LENGTH_LONG).show();
                 }
-            }
-        });
+//            }
+//        });
+//
+    }
+
+    private void initializeadpter()
+    {
+        RecyclerViewAdapter2 adapter1 = new RecyclerViewAdapter2(station);
+        recyclerView.setAdapter(adapter1);
+    }
+
+
+    private void initialize()
+    {
+        name = findViewById(R.id.trainroutedetals_trainnameid);
+        no = findViewById(R.id.trainroutedetals_trainnoid);
+        days = findViewById(R.id.trainroutedetals_runningdaysid);
+        clas = findViewById(R.id.trainroutedetals_classesid);
+
+
+        recyclerView = findViewById(R.id.trainroutedetals_rv);
+        recyclerView.setHasFixedSize(true);
+
+        LinearLayoutManager layoutManager1 = new LinearLayoutManager(context);
+        recyclerView.setLayoutManager(layoutManager1);
+
+        RecyclerViewAdapter2 adapter = new RecyclerViewAdapter2(station);
 
     }
+
     public boolean isNetworkAvailable(){
 //        return  false;
         ConnectivityManager connectivityManager= (ConnectivityManager) TrainRoute.this.getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -116,7 +141,6 @@ public class TrainRoute extends AppCompatActivity {
         }
         else if(code==403){
             Toast.makeText(TrainRoute.this,"Request quota for the api is exceeded.",Toast.LENGTH_LONG).show();
-
         }
 
         else
@@ -152,15 +176,17 @@ public class TrainRoute extends AppCompatActivity {
 
 //                                Toast.makeText(TrainRoute.this,"200",Toast.LENGTH_LONG).show();
                                 JSONObject tr = object.getJSONObject("train");
+
                                 String trn;
-                                trn =tr.getString("name");
-                                CurrData = "Train Name = "+trn;
-                                Data.add(CurrData);
-                                CurrData = "Train Number = "+tr.getString("number");
-                                Data.add(CurrData);
+                                CurrData=tr.getString("name");
+                                name.setText(CurrData);
+
+
+                                CurrData =tr.getString("number");
+                                no.setText(CurrData);
 
                                 JSONArray days_arr = tr.getJSONArray("days");
-                                CurrData = "Running Days = ";
+                                CurrData = "";
                                 String temp;
                                 for (int i = 0; i < days_arr.length(); i++)
                                 {
@@ -171,11 +197,11 @@ public class TrainRoute extends AppCompatActivity {
                                         CurrData+= days_arr.getJSONObject(i).getString("code")+" ";
                                     }
                                 }
-                                Data.add(CurrData);
 
+                                days.setText(CurrData);
 
                                 JSONArray class_arr = tr.getJSONArray("classes");
-                                CurrData = "Classes Avialable = ";
+                                CurrData = "";
                                 for (int i = 0; i < class_arr.length(); i++)
                                 {
 
@@ -185,35 +211,47 @@ public class TrainRoute extends AppCompatActivity {
                                         CurrData+= class_arr.getJSONObject(i).getString("code")+" ";
                                     }
                                 }
-                                Data.add(CurrData);
+                                clas.setText(CurrData);
 
                                 JSONArray route_arr = object.getJSONArray("route");
                                 CurrData = "";
-                                Data.add(CurrData);
-                                CurrData = "STATIONS:";
-                                Data.add(CurrData);
+                                int size = route_arr.length();
+                                String namee[] = new String[size];
+                                String arr[] = new String[size];
+                                String dep[] = new String[size];
+                                String dista[] = new String[size];
+//
+//
+//
                                 String idx,DD;
                                 int dist;
                                 for (int i = 0; i < route_arr.length(); i++)
                                 {
                                     idx = String.valueOf(i+1);
                                     JSONObject station = route_arr.getJSONObject(i).getJSONObject("station");
-                                    CurrData = idx+". "+station.getString("name");
-                                    CurrData+= ", ARR = "+route_arr.getJSONObject(i).getString("scharr");
-                                    CurrData+= ", DPT = "+route_arr.getJSONObject(i).getString("schdep");
+                                    CurrData =station.getString("name");
+                                    namee[i]=CurrData;
+                                    CurrData=route_arr.getJSONObject(i).getString("scharr");
+                                    arr[i]="Arrival : " + CurrData;
+
+                                    CurrData=route_arr.getJSONObject(i).getString("schdep");
+                                    dep[i]="Departure : " + CurrData;
+
                                     dist = route_arr.getJSONObject(i).getInt("distance");
                                     DD = String.valueOf(dist);
-                                    CurrData+= ", DIST = "+DD;
-                                    Data.add(CurrData);
+                                    CurrData=DD;
+                                    dista[i]="Distance : " + CurrData +" KM";
                                 }
+
+                                station = new ArrayList<>();
 //
+                                for(int i=0;i<size;i++)
+                                {
+                                    station.add(new Station(namee[i],arr[i],dep[i],dista[i]));
+                                }
+//                                station.add(new Station("Hello","Hello","Hello","Hello"));
 
-
-
-                                ArrayAdapter<String> adapter = new ArrayAdapter<String>(TrainRoute.this,android.R.layout.simple_list_item_1,android.R.id.text1,Data);
-
-                                list.setAdapter(adapter);
-
+                                initializeadpter();
 
                             }
                             else
@@ -241,5 +279,18 @@ public class TrainRoute extends AppCompatActivity {
 
         RequestQueue requestQueue= Volley.newRequestQueue(TrainRoute.this);
         requestQueue.add(request);
+    }
+}
+
+
+class Station
+{
+    String station_name,arrival,depart,distance;
+    Station(String s1,String s2,String s3,String s4)
+    {
+        this.station_name = s1;
+        this.arrival = s2;
+        this.depart = s3;
+        this.distance = s4;
     }
 }

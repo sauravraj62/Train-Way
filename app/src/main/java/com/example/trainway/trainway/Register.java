@@ -32,14 +32,6 @@ public class Register extends AppCompatActivity {
         progressDialog = new ProgressDialog(this);
         firebaseAuth = FirebaseAuth.getInstance();
 
-        tvName= (TextView) findViewById(R.id.UserName);
-        tvEmail= (TextView) findViewById(R.id.UserEMail);
-        tvPass= (TextView) findViewById(R.id.UserPasword);
-
-        tvName.setText("Enter Your Name:");
-        tvEmail.setText("Enter Your Email:");
-        tvPass.setText(("Enter Your Password:"));
-
         etName = findViewById(R.id.et2Name);
         etEmail = findViewById(R.id.et2Email);
         etPass = findViewById(R.id.et2Password);
@@ -78,6 +70,7 @@ public class Register extends AppCompatActivity {
                 }
                 else
                 {
+                    progressDialog.dismiss();
                     Toast.makeText(Register.this,"Enter Valid Details",Toast.LENGTH_LONG).show();
                 }
             }

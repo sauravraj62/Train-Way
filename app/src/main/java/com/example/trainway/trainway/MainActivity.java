@@ -46,18 +46,15 @@ public class MainActivity extends AppCompatActivity {
         tx2= findViewById((R.id.validtimes));
         tx3= findViewById(R.id.signuptxt);
 
-        tx1.setText("Sign In Below For Services:");
 
         tx2.setText("Remaining Valid Chances:"+count);
-
-        tx3.setText("New User? Sign Up!");
 
         btn1= findViewById(R.id.signbtn);
         skipbtn = findViewById(R.id.skipbtn);
         skipbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this,DashBoard.class));
+                startActivity(new Intent(MainActivity.this,DashBoard_New.class));
             }
         });
         btn1.setOnClickListener(new View.OnClickListener() {
@@ -78,6 +75,7 @@ public class MainActivity extends AppCompatActivity {
                 {
                     Toast.makeText(MainActivity.this,"Enter A Valid PassWord",Toast.LENGTH_LONG).show();
                 }
+                else
                 validate(Email,Pass);
             }
         });
@@ -102,7 +100,7 @@ public class MainActivity extends AppCompatActivity {
                 {
                     progressDialog.dismiss();
                     Toast.makeText(MainActivity.this,"Login Successful",Toast.LENGTH_LONG).show();
-                    startActivity(new Intent(MainActivity.this,DashBoard.class));
+                    startActivity(new Intent(MainActivity.this,DashBoard_New.class));
                 }
                 else
                 {
