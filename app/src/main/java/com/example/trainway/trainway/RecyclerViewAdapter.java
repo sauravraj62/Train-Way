@@ -75,9 +75,13 @@ class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ClubV
                 {
                     intent = new Intent(con,TrainsAtStation.class);
                 }
-                else
+                else if(Pos==5)
                 {
                     intent = new Intent(con,LiveStatus.class);
+                }
+                else
+                {
+                    intent = new Intent(con,FavoriteTrains.class);
                 }
 
                 con.startActivity(intent);

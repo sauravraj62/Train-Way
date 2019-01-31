@@ -8,7 +8,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -27,7 +29,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ShowTrains extends AppCompatActivity {
-    String source,destination,URL,CurrData;
+
+//    private ImageView fav;
+    private String source,destination,URL,CurrData;
     private ProgressDialog progressDialog;
 
     RecyclerView recyclerView;
@@ -38,12 +42,25 @@ public class ShowTrains extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_trains);
 
+
+
+//        fav = findViewById(R.id.favimg1);
+
         source = getIntent().getStringExtra("src");
         destination = getIntent().getStringExtra("dest");
         source.toLowerCase();
         destination.toLowerCase();
         URL ="https://indianrailapi.com/api/v2/TrainBetweenStation/apikey/d9a868f6411e131a285d0df9b32f23ce/From/"+source+"/To/"+destination;
 //        "https://api.railwayapi.com/v2/between/source/gkp/dest/jat/date/24-06-2017/apikey/myapikey/"
+
+//        fav.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                fav.setImageResource(R.drawable.heart2);
+//            }
+//        });
+
+
 
         initialize();
         progressDialog = new ProgressDialog(this);

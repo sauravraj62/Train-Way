@@ -41,6 +41,7 @@ public class DashBoard_New extends AppCompatActivity {
         items.add(new Items("Train Between Stations", R.drawable.trainbtwstations));
         items.add(new Items("Train At Station", R.drawable.trainatstation));
         items.add(new Items("Train Live Status", R.drawable.livestatus));
+        items.add(new Items("Favorites Trains", R.drawable.heart2));
     }
 
     private void initializeAdapter(){
